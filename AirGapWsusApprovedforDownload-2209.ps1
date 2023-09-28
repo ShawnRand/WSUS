@@ -42,7 +42,20 @@ Function Approve-Windows10
 {
     foreach ($update in $updates)
     {
-        if ($update.IsSuperseded -ne 'True' -and $update.ProductTitles -like 'Windows 10, version 1903 and later' -and $update.Title -notlike '*ARM*' -and $update.Title -like '*20H2*' -and $update.Title -notlike '*x86-based*' -and $update.UpdateClassificationTitle -notlike 'Upgrades')
+        if ($update.IsSuperseded -ne 'True' -and $update.ProductTitles -like 'Windows 10, version 1903 and later' -and $update.Title -notlike '*ARM*' -and $update.Title -like '*21H2*' -and $update.Title -notlike '*x86-based*' -and $update.UpdateClassificationTitle -notlike 'Upgrades')
+        {
+          $update[0].Approve(“Install”,$Group)
+            #write-output "Approved Update:" $update.Title 
+            $script:countapprove++
+        }
+    }
+}
+
+Function Approve-Windows11
+{
+    foreach ($update in $updates)
+    {
+        if ($update.IsSuperseded -ne 'True' -and $update.ProductTitles -like 'Windows 11' -and $update.Title -notlike '*ARM*' -and $update.Title -like '*21H2*' -and $update.Title -notlike '*x86-based*' -and $update.UpdateClassificationTitle -notlike 'Upgrades')
         {
           $update[0].Approve(“Install”,$Group)
             #write-output "Approved Update:" $update.Title 
@@ -169,6 +182,7 @@ Function Approve-Test
 
 #Run'em
 Approve-Windows10
+Approve-Windows11
 Approve-Server
 Approve-SQL
 Approve-Office
